@@ -36,7 +36,7 @@
 ;;
 ;; We have a 2D grid of digits.
 ;; If you've been reading [these notebooks](../index) regularly since Day 1,
-;; you already know that I have [helpers](./aoc) ready for this:
+;; you already know that I have [helpers](../aoc) ready for this:
 ;;
 (defn parse-data [input]
   (-> input
@@ -52,7 +52,7 @@
 ;; ## Solution
 ;;
 ;; Finally a graph traversal problem where I can use my
-;; [graph traversal helper](./aoc#graph-traversal)
+;; [graph traversal helper](../aoc#graph-traversal)
 ;; (if it doesn't take you to the correct part of the notebook, try hitting `F5`
 ;; or find it in the TOC) which I've written in preparation for this year.
 ;;

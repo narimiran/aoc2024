@@ -18,7 +18,7 @@
 
 ;; ## Input parsing
 ;;
-;; We already had the same parsing task in [Day 16 solution](./aoc),
+;; We already had the same parsing task in [Day 16 solution](../aoc),
 ;; but this time we'll create a hash map, as we can use it directly later.
 ;;
 (defn parse-data [input]
@@ -66,7 +66,7 @@
 ;; and `end`.\
 ;; We've parsed our data into a hashmap with `:start`, `:end` and `:walls`
 ;; keys.
-;; These are exactly the keys that my `[pathfinding helper]`(./aoc#graph-traversal)
+;; These are exactly the keys that my `[pathfinding helper]`(../aoc#graph-traversal)
 ;; uses: we pass the hashmap to `aoc/dfs` and extract `:path` from the
 ;; results.
 ;; Done.

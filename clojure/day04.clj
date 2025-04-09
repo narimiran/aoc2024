@@ -35,7 +35,7 @@ MXMXAXMASX")
 ;; to search in 8 directions.
 ;;
 ;; Since this will involve searching in a 2D grid, I have a helper in my
-;; [aoc module](./aoc) which converts a list into a hashmap, where keys are
+;; [aoc module](../aoc) which converts a list into a hashmap, where keys are
 ;; the coordinates and values are characters at those positions:
 (defn parse-data [data]
   (-> data

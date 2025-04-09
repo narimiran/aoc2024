@@ -35,7 +35,7 @@
 ;; Each line consists of two numbers, separated by multiple spaces.
 ;;
 ;; Fortunately, I have a helper function `aoc/integers` (if you haven't already,
-;; take a look at my [aoc module](./aoc), lots of goodies there which will get
+;; take a look at my [aoc module](../aoc), lots of goodies there which will get
 ;; used throughout these tasks), which extracts
 ;; all integers from a line, and I can invoke it when parsing the input
 ;; with `:ints`.\
