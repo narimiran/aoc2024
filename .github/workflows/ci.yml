@@ -23,7 +23,7 @@ jobs:
           java-version: '21'
 
       - name: Install Clojure
-        uses: DeLaGuardo/setup-clojure@12.5
+        uses: DeLaGuardo/setup-clojure@13.2
         with:
           cli: 'latest'
 
