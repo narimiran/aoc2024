@@ -53,6 +53,7 @@ Ok, now we're ready for...
 
 Task                                                                    | Notebook                    | Extras      | Comment
 ---                                                                     | ---                         | ---         | ---
+Day 0: Helper module                                                    | [aoc.clj](clojure/aoc)      |             | Helper module I'll use for each task.
 [Day 1: Historian Hysteria](https://adventofcode.com/2024/day/1)        | [day01.clj](clojure/day01)  | viz, bench  | Much easier than Day 1 2023. I like it!
 [Day 2: Red-Nosed Reports](https://adventofcode.com/2024/day/2)         | [day02.clj](clojure/day02)  | viz         | The Problem Dampener would be useful for AoC!
 [Day 3: Mull It Over](https://adventofcode.com/2024/day/3)              | [day03.clj](clojure/day03)  | viz         | Regex and chill.
@@ -75,4 +76,5 @@ Task                                                                    | Notebo
 [Day 20: Race Condition](https://adventofcode.com/2024/day/20)          | [day20.clj](clojure/day20)  |             | aMaze, again.
 ---                                                                     | ---                         |             | _3 month break_
 [Day 21: Keypad Conundrum](https://adventofcode.com/2024/day/21)        | [day21.clj](clojure/day21)  |             | Dynamic programming.
+[Day 22: Monkey Market](https://adventofcode.com/2024/day/22)           | [day22.clj](clojure/day22)  |             | 
 
