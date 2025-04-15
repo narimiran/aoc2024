@@ -79,4 +79,5 @@ Day 0: Helper module                                                    | [aoc.c
 [Day 22: Monkey Market](https://adventofcode.com/2024/day/22)           | [day22.clj](clojure/day22)  |             | Too much monkey business.
 [Day 23: LAN Party](https://adventofcode.com/2024/day/23)               | [day23.clj](clojure/day23)  |             | Clique-measuring contest.
 [Day 24: Crossed Wires](https://adventofcode.com/2024/day/24)           | [day24.clj](clojure/day24)  |             | No idea what I'm doing.
+[Day 25: Code Chronicle](https://adventofcode.com/2024/day/25)          | [day25.clj](clojure/day25)  |             | Lockpicking was never easier.
 
