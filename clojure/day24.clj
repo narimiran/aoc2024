@@ -80,11 +80,11 @@ x02 OR y02 -> z02")
           wires
           (recur
            (reduce (fn [acc [op a b c]]
-                     (if (and (acc a)
-                              (acc b)
-                              (not (acc c)))
-                       (assoc acc c (op (acc a) (acc b)))
-                       acc))
+                     (cond-> acc
+                       (and (acc a)
+                            (acc b)
+                            (not (acc c)))
+                       (assoc c (op (acc a) (acc b)))))
                    wires
                    conns)))))))
 

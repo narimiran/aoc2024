@@ -236,7 +236,7 @@
 ;;
 ;; Today's Part 2 was the hardest task for me this year so far.
 ;; It took me a very long time until I found a suitable data structure to
-;; represent the disk which will allow for easy updates as we move
+;; represent the disk which will allow for easy "updates" as we move
 ;; the files around.
 ;;
 ;; Today's highlights:

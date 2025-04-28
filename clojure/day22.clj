@@ -154,7 +154,7 @@
 ;; ## Conclusion
 ;;
 ;; Part 1 is very straight-forward, especially for a task this late.
-;; The second part takes a bit more coding to get what we need, but still doable
+;; The second part takes a bit more coding to get what we need, but still doable.
 ;;
 ;; Today's hightlights:
 ;;

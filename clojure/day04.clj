@@ -67,7 +67,7 @@ MXMXAXMASX")
 ;; Anything you can write in a `seq-exprs` (the stuff inside of `[ ... ]`)
 ;; of a [`for`](https://clojuredocs.org/clojure.core/for) or a
 ;; [`do-seq`](https://clojuredocs.org/clojure.core/doseq) (see some examples
-;; on those links), you can also write here: for example, use `:when`:
+;; on those links), you can also write here; for example, use `:when`:
 ;;
 (defn part-1 [grid]
   (let [letters (map-indexed vector "XMAS")]

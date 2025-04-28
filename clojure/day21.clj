@@ -66,11 +66,8 @@
 ;; before moving in the other direction.
 ;; For example: moving `up, left, up` will never be better than `up, up, left`.
 ;;
-(defn move-vertically [n]
-  (vec (repeat (abs n) (if (pos? n) \v \^))))
-
-(defn move-horizontally [n]
-  (vec (repeat (abs n) (if (pos? n) \> \<))))
+(defn move [n neg-dir pos-dir]
+  (vec (repeat (abs n) (if (pos? n) pos-dir neg-dir))))
 
 
 ;; To create an optimal path `from` one point `to` another for a given `keypad`,
@@ -85,8 +82,8 @@
 ;;
 (defn path [keypad [from to]]
   (let [[dx dy] (aoc/pt- (keypad to) (keypad from))
-        hor (move-horizontally dx)
-        vert (move-vertically dy)]
+        hor (move dx \< \>)
+        vert (move dy \^ \v)]
     (-> (if (neg? dx)
           (if (valid? keypad (aoc/pt+ (keypad from) [dx 0]))
             (into hor vert)

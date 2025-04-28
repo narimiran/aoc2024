@@ -66,9 +66,8 @@
 ;; and `end`.\
 ;; We've parsed our data into a hashmap with `:start`, `:end` and `:walls`
 ;; keys.
-;; These are exactly the keys that my `[pathfinding helper]`(../aoc#graph-traversal)
-;; uses: we pass the hashmap to `aoc/dfs` and extract `:path` from the
-;; results.
+;; These are exactly the keys that my [pathfinding helper](../aoc#graph-traversal)
+;; uses: we pass the hashmap to `aoc/dfs` and extract `:path` from the results.
 ;; Done.
 ;;
 ;; We need `[index value]` pair for each point on the path, and we can get
