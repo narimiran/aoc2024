@@ -215,12 +215,137 @@
 
 
 
-;; ## Part 2
+;; ## Alternate solution
 ;;
-;; ![](https://media1.tenor.com/m/CxROZVyqKIwAAAAd/aint-nobody-got-time-for-that-sweet-brown.gif)
+;; With the above approach my solution for part 2 was very long, complicated and ugly.
+;; So, it is better to find a different approach.
 ;;
-;; Maybe some other time...
+;; Here's a new idea:
+;; - Instead of having separate sets for walls and boxes in the state,
+;;   this time we'll have a map of all occupied coordinates.
+;; - We will have a solution that works for both parts.
+;; - For part 2, before parsing the input, we'll make the following replacements:
 ;;
+(def replacements
+  {"#" "##"
+   "O" "[]"
+   "." ".."
+   "@" "@."})
+
+(defn widen-row [row]
+  (str/replace row #"." replacements))
+
+
+;; ### Input parsing
+;;
+;; Parsing the `moves` is exactly the same as before.
+;; The `state` map now consists of `:grid` with all occupied coordinates,
+;; and we will need the `:allowed?` field to tell us if we're allowed to
+;; make a move.
+;;
+(defn parse-data-2 [input widen?]
+  (let [[grid moves] (aoc/parse-paragraphs input)
+        grid (cond-> grid
+               widen? (->> (mapv widen-row))
+               true (aoc/grid->hashed-point-map (set "#O[]@") 100))
+        bot (first (keep (fn [[k v]] (when (#{\@} v) k)) grid))
+        moves (mapv directions (str/join moves))]
+    [{:grid (dissoc grid bot)
+      :bot bot
+      :allowed? false}
+     moves]))
+
+(def example-data-1 (parse-data-2 example false))
+(def example-data-2 (parse-data-2 example true))
+
+(def data-1 (parse-data-2 (aoc/read-input 15) false))
+(def data-2 (parse-data-2 (aoc/read-input 15) true))
+
+
+
+;; ### Solution
+;;
+;; When we're allowed to make a move, we will switch a box and and empty
+;; space next to it:
+;;
+(defn switch [{:keys [grid] :as state} pos pos']
+  (-> state
+      (update :grid assoc pos' (grid pos))
+      (update :grid dissoc pos)))
+
+
+
+;; The `move` function is now more convoluted because of the part 2, where
+;; we need to check if we can move both left and right part of a box, before
+;; making a move.
+;;
+;; We'll try to move one part of a box, and if that's successful then we'll
+;; try to move the other part (the order of these two checks is important).
+;; If both are successful, that's our new state.
+;; If any of them is not allowed, we return the initial state.
+;;
+(defn move-2 [{:keys [grid] :as state} pos dir]
+  (let [pos' (+ pos dir)
+        move-box (fn [s] (switch s pos pos'))
+        state (assoc state :allowed? false)]
+    (case (grid pos')
+      nil (-> state
+              (assoc :allowed? true)
+              move-box)
+      \# state
+      \O (let [state' (move-2 state pos' dir)]
+           (if (:allowed? state')
+             (move-box state')
+             state))
+      \[ (let [state' (move-2 state (inc pos') dir)]
+           (if (:allowed? state')
+             (let [state'' (move-2 state' pos' dir)]
+               (if (:allowed? state'')
+                 (move-box state'')
+                 state))
+             state))
+      \] (let [state' (move-2 state (dec pos') dir)]
+           (if (:allowed? state')
+             (let [state'' (move-2 state' pos' dir)]
+               (if (:allowed? state'')
+                 (move-box state'')
+                 state))
+             state)))))
+
+
+;; If we were successful in moving all the boxes in our way (or there
+;; was an empty space), we need to move the `:bot`:
+;;
+(defn move-bot [{:keys [bot] :as state} dir]
+  (let [state' (move-2 state bot dir)]
+    (if (:allowed? state')
+      (assoc state' :bot (+ bot dir))
+      state)))
+
+
+
+;; This is everything we need to apply the moves.
+;; After all moves have been made, we need to calculate GPS coordinates
+;; of the boxes:
+;;
+(defn boxes-gps [grid]
+  (->> grid
+       (keep (fn [[k v]]
+               (when (#{\[ \O} v) k)))
+       (reduce +)))
+
+
+(defn solve [[state moves]]
+  (->> (reduce move-bot state moves)
+       :grid
+       boxes-gps))
+
+
+(solve example-data-1)
+(solve example-data-2)
+
+(solve data-1)
+(solve data-2)
 
 
 
@@ -278,7 +403,7 @@
     (draw-walls walls)
     (draw-boxes boxes)
     (draw-bot bot))
-  (q/save-frame "/tmp/imgs/day15-###.jpg"))
+  #_(q/save-frame "/tmp/imgs/day15-###.jpg"))
 
 (comment
   (q/sketch
@@ -324,5 +449,9 @@
 
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (defn -main [input]
-  (let [data (parse-data input)]
-    (part-1 data)))
+  [(-> input
+       (parse-data-2 false)
+       solve)
+   (-> input
+       (parse-data-2 true)
+       solve)])
