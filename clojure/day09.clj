@@ -29,15 +29,12 @@
 ;; We'll go digit by digit and "unzip" it based on the rules we're given:
 ;;
 (defn parse-data [input]
-  (let [digits (aoc/parse-line input :digits)]
-    (loop [[hd & tl] digits
-           id 0
-           file? true
-           disk []]
-      (cond
-        (nil? hd) disk
-        file? (recur tl (inc id) false (into disk (repeat hd id)))
-        :else (recur tl      id  true  (into disk (repeat hd nil)))))))
+  (->> (aoc/parse-line input :digits)
+       (map-indexed vector)
+       (mapcat (fn [[i n]]
+                 (let [idx (when (zero? (mod i 2)) (quot i 2))]
+                   (repeat n idx))))
+       vec))
 
 
 (def example-data (parse-data example))
@@ -68,7 +65,6 @@
       (disk fi) (recur (inc fi)      bi  (conj res (disk fi)))
       (disk bi) (recur (inc fi) (dec bi) (conj res (disk bi)))
       :else     (recur      fi  (dec bi) res))))
-
 
 ;; After we do the (de)fragmentation, we need to calculate the filesystem
 ;; checksum:
