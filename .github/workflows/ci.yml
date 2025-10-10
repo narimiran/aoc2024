@@ -40,12 +40,15 @@ jobs:
 
       - name: Test helpers
         if : ${{ matrix.kind == 'tests' }}
-        run: clojure -M clojure/tests/aoc_tests.clj
+        working-directory: clojure
+        run: clojure -M tests/aoc_tests.clj
 
       - name: Test solutions
         if : ${{ matrix.kind == 'tests' }}
-        run: clojure -M clojure/tests/solutions_tests.clj
+        working-directory: clojure
+        run: clojure -M tests/solutions_tests.clj
 
       # - name: Benchmark solutions
       #   if : ${{ matrix.kind == 'benchmark' }}
-      #   run: clojure -M clojure/tests/solutions_benchmark.clj
+      #   working-directory: clojure
+      #   run: clojure -M tests/solutions_benchmark.clj

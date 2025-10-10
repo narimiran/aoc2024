@@ -16,7 +16,7 @@
 
 ;; ## Reading input files
 ;;
-;; The inputs are always in the `inputs/` folder,
+;; The inputs are always in the `../inputs/` folder,
 ;; named `dd` and have a `.txt` extension.
 ;; Let's simplify reading them:
 ;;
@@ -24,7 +24,7 @@
   (let [name (if (int? file)
                (format "%02d" file)
                file)]
-    (slurp (str "inputs/" name ".txt"))))
+    (slurp (str "../inputs/" name ".txt"))))
 
 
 
