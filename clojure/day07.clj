@@ -218,7 +218,7 @@
 ;; It's not enough just to claim this new way is faster.
 ;; Let's back it up with some data.
 ;;
-;; [Again](./day01), we'll use the
+;; [Again](../day01), we'll use the
 ;; [`criterium` library](https://github.com/hugoduncan/criterium) for benchmarking.
 ;;
 ;; ```

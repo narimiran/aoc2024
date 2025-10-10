@@ -10,7 +10,7 @@
 
 ;; # Day 3: Mull It Over
 ;;
-;; It seems that my hunch from [yesterday](./day02) was correct:
+;; It seems that my hunch from [yesterday](../day02) was correct:
 ;; this year (AoC's 10th anniversary) we'll be re-visiting some
 ;; old AoC locations. I like it!
 ;;

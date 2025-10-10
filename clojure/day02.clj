@@ -19,7 +19,7 @@
 
 ;; ## Input parsing
 ;;
-;; Just like [yesterday](./day01), we have multiple integers per line:
+;; Just like [yesterday](../day01), we have multiple integers per line:
 ;;
 ^{:nextjournal.clerk/visibility {:result :hide}}
 (def example

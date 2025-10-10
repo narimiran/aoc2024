@@ -106,7 +106,7 @@
 ;; (More about that in a later section.)
 ;;
 ;; This means it is enough to check if all adjacent numbers
-;; (we'll use `(partition 2 1 ...)` for that, like we did in [Day 2](./day02))
+;; (we'll use `(partition 2 1 ...)` for that, like we did in [Day 2](../day02))
 ;; in a line follow the rules:
 ;;
 (defn valid-line? [line]
