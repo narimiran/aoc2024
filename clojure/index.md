@@ -16,7 +16,7 @@ Take a look:
 * [AoC 2021 in Python, Racket](https://github.com/narimiran/AdventOfCode2021)
 * [AoC 2022 in Python, Clojure](https://github.com/narimiran/AdventOfCode2022)
 * [AoC 2023 in Clojure](https://github.com/narimiran/AdventOfCode2023)
-* [AoC 2024 in Clojure (Clerk notebooks)](https://github.com/narimiran/aoc2024) (this is a link to the repo)
+* [AoC 2024 in Clojure (Clerk notebooks), Python, Elixir](https://github.com/narimiran/aoc2024) (this is a link to the repo)
 
 
 
@@ -51,8 +51,8 @@ Ok, now we're ready for...
 
 ## AoC 2024
 
-Task                                                                    | Notebook                    | Extras      | Comment
----                                                                     | ---                         | ---         | ---
+Task                                                                    | Notebook            | Extras      | Comment
+---                                                                     | ---                 | ---         | ---
 Day 0: Helper module                                                    | [aoc.clj](aoc)      |             | Helper module I'll use for each task.
 [Day 1: Historian Hysteria](https://adventofcode.com/2024/day/1)        | [day01.clj](day01)  | viz, bench  | Much easier than Day 1 2023. I like it!
 [Day 2: Red-Nosed Reports](https://adventofcode.com/2024/day/2)         | [day02.clj](day02)  | viz         | The Problem Dampener would be useful for AoC!
