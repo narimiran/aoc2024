@@ -1,7 +1,7 @@
 (ns aoc-tests
   (:require
    aoc
-   [clojure.test :refer [deftest testing is run-tests successful?]]))
+   [clojure.test :refer [deftest testing is]]))
 
 
 (def int-lines "123\n-456\n789")
@@ -48,6 +48,30 @@
 
 
 
+
+
+(def grid ["#.." "..#" "##."])
+(def grid-print ["█  " "  █" "██ "])
+(def walls {[0 0] \# , [2 1] \# , [0 2] \# , [1 2] \#})
+(def hashed-walls {0 \# , 1002 \# , 2000 \# , 2001 \#})
+(def custom-hashed-walls {0 \# , 102 \# , 200 \# , 201 \#})
+
+(deftest grids
+  (testing "vec->map"
+    (is (= walls (aoc/grid->point-map grid #{\#})))
+    (is (= hashed-walls (aoc/grid->hashed-point-map grid #{\#})))
+    (is (= custom-hashed-walls (aoc/grid->hashed-point-map grid #{\#} 100))))
+
+  (testing "vec->set"
+    (is (= (set (keys walls)) (aoc/grid->point-set grid #{\#}))))
+
+  (testing "points->lines"
+    (is (= grid-print (aoc/points->lines walls)))
+    (is (= grid-print (aoc/points->lines (set (keys walls)))))))
+
+
+
+
 (def pt1 [2 3])
 (def pt2 [7 -5])
 
@@ -55,53 +79,77 @@
   (is (= result (aoc/neighbours amount pt))))
 
 (deftest points
-  (is (= 12 (aoc/manhattan pt2)))
-  (is (= 13 (aoc/manhattan pt1 pt2)))
-  (is (= [9 -2] (aoc/pt+ pt1 pt2)))
-  (is (= [5 -8] (aoc/pt- pt2 pt1)))
-  (is (= [-5 8] (aoc/pt- pt1 pt2)))
-  (is (= [4 6] (aoc/pt* 2 pt1)))
-  (is (= [-21 15] (aoc/pt* -3 pt2)))
+  (testing "points"
+    (is (= 12 (aoc/manhattan pt2)))
+    (is (= 13 (aoc/manhattan pt1 pt2)))
+    (is (= [9 -2] (aoc/pt+ pt1 pt2)))
+    (is (= [5 -8] (aoc/pt- pt2 pt1)))
+    (is (= [-5 8] (aoc/pt- pt1 pt2)))
+    (is (= [4 6] (aoc/pt* 2 pt1)))
+    (is (= [-21 15] (aoc/pt* -3 pt2))))
+
+  (testing "turns"
+    (is (= [0 1] (aoc/left-turn [-1 0])))
+    (is (= [0 1] (aoc/right-turn [1 0])))
+    (is (= [1 0] (aoc/left-turn [0 1])))
+    (is (= [1 0] (aoc/right-turn [0 -1])))
+    (is (= [0 -1] (aoc/left-turn [1 0])))
+    (is (= [0 -1] (aoc/right-turn [-1 0])))
+    (is (= [-1 0] (aoc/left-turn [0 -1])))
+    (is (= [-1 0] (aoc/right-turn [0 1]))))
+
+  (testing "inside"
+    (is (aoc/inside? 10 5 7))
+    (is (not (aoc/inside? 10 5 17)))
+    (is (aoc/inside? 10 0 0))
+    (is (not (aoc/inside? 10 0 -1)))
+    (is (aoc/inside? 10 20 9 17))
+    (is (not (aoc/inside? 10 20 17 9))))
+
+  (testing "neighbours"
+    (test-neighbours pt1 4 '(      [2 2]
+                             [1 3]       [3 3]
+                                   [2 4]))
+  
+    (test-neighbours pt1 5 '(      [2 2]
+                             [1 3] [2 3] [3 3]
+                                   [2 4]))
+  
+    (test-neighbours pt1 8 '([1 2] [2 2] [3 2]
+                             [1 3]       [3 3]
+                             [1 4] [2 4] [3 4]))
+  
+    (test-neighbours pt1 9 '([1 2] [2 2] [3 2]
+                             [1 3] [2 3] [3 3]
+                             [1 4] [2 4] [3 4]))))
 
 
-  (is (aoc/inside? 10 5 7))
-  (is (not (aoc/inside? 10 5 17)))
-  (is (aoc/inside? 10 0 0))
-  (is (not (aoc/inside? 10 0 -1)))
-  (is (aoc/inside? 10 20 9 17))
-  (is (not (aoc/inside? 10 20 17 9)))
 
-  (test-neighbours pt1 4 '(      [2 2]
-                           [1 3]       [3 3]
-                                 [2 4]))
+(def pt3 [7 -2 4])
+(def pt4 [-2 11 13])
 
-  (test-neighbours pt1 5 '(      [2 2]
-                           [1 3] [2 3] [3 3]
-                                 [2 4]))
+(deftest grid-3d
+  (testing "3d points"
+    (is (= 9 (aoc/manhattan pt3)))
+    (is (= 22 (aoc/manhattan pt3 pt4)))
+    (is (= [5 9 17] (aoc/pt-3d+ pt3 pt4)))
+    (is (= [9 -13 -9] (aoc/pt-3d- pt3 pt4)))
+    (is (= [-9 13 9] (aoc/pt-3d- pt4 pt3)))
+    (is (= [14 -4 8] (aoc/pt-3d* 2 pt3)))
+    (is (= [20 -110 -130] (aoc/pt-3d* -10 pt4))))
 
-  (test-neighbours pt1 8 '([1 2] [2 2] [3 2]
-                           [1 3]       [3 3]
-                           [1 4] [2 4] [3 4]))
+  (testing "neighbours-3d"
+    (is (= [[6 -2 4] [8 -2 4] [7 -3 4] [7 -1 4] [7 -2 3] [7 -2 5]]
+           (aoc/neighbours-3d pt3))))
 
-  (test-neighbours pt1 9 '([1 2] [2 2] [3 2]
-                           [1 3] [2 3] [3 3]
-                           [1 4] [2 4] [3 4])))
+  (testing "inside 3d"
+    (is (aoc/inside-3d? 8 [2 5 3]))
+    (is (aoc/inside-3d? 8 2 5 3))
+    (is (not (aoc/inside-3d? 8 [-2 5 3])))
+    (is (not (aoc/inside-3d? 8 [2 8 3])))))
 
 
 
-(def grid ["#.." "..#" "##."])
-(def grid-print ["█  " "  █" "██ "])
-(def walls {[0 0] \# , [2 1] \# , [0 2] \# , [1 2] \#})
-
-(deftest vec->map
-  (is (= walls (aoc/grid->point-map grid #{\#}))))
-
-(deftest vec->set
-  (is (= (set (keys walls)) (aoc/grid->point-set grid #{\#}))))
-
-(deftest points->lines
-  (is (= grid-print (aoc/points->lines walls)))
-  (is (= grid-print (aoc/points->lines (set (keys walls))))))
 
 (deftest graph-traversal
   (let [walls #{[0 1] [1 1] [1 3] [2 3] [3 0] [3 1] [3 2] [3 3]}
@@ -159,10 +207,7 @@
 (def evens [2 4 6 8 -24 156])
 (def stevens [2 4 6 21 32])
 
-(deftest helpers
-  (testing "none?"
-    (is (aoc/none? odd? evens))
-    (is (not (aoc/none? odd? stevens))))
+(deftest utilities
   (testing "count-if"
     (is (= 6 (aoc/count-if even? evens)))
     (is (zero? (aoc/count-if odd? evens)))
@@ -179,26 +224,8 @@
   (testing "find-first"
     (is (= 2 (aoc/find-first even? evens)))
     (is (nil? (aoc/find-first odd? evens)))
-    (is (= 21 (aoc/find-first odd? stevens)))))
+    (is (= 21 (aoc/find-first odd? stevens))))
 
-
-(def d {:a {:b 2}
-        :c {:d {:e 3}}})
-
-(deftest builtin-alternatives
-  (testing "update-2"
-    (is (= (update-in d [:a :b] inc)
-           (aoc/update-2 d :a :b inc))))
-  (testing "assoc-2"
-    (is (= (assoc-in d [:a :b] 5)
-           (aoc/assoc-2 d :a :b 5))))
-  (testing "assoc-3"
-    (is (= (assoc-in d [:c :d :e] 7)
-           (aoc/assoc-3 d :c :d :e 7)))))
-
-
-
-(deftest gcd-lcm
   (testing "gcd"
     (is (= 1 (aoc/gcd 2 3)))
     (is (= 4 (aoc/gcd 4 12)))
@@ -208,19 +235,35 @@
     (is (= 6 (aoc/lcm 2 3)))
     (is (= 12 (aoc/lcm 4 12)))
     (is (= 75 (aoc/lcm 25 15)))
-    (is (= (* 7 17) (aoc/lcm 7 17)))))
+    (is (= (* 7 17) (aoc/lcm 7 17))))
 
-
-(deftest count-digits
   (testing "count digits"
     (is (= 1 (aoc/count-digits 0)))
     (is (= 1 (aoc/count-digits 1)))
     (is (= 1 (aoc/count-digits -1)))
     (is (= 2 (aoc/count-digits 99)))
-    (is (= 3 (aoc/count-digits 100)))))
+    (is (= 3 (aoc/count-digits 100))))
+
+  (testing "sign"
+    (is (= 0 (aoc/sign 0)))
+    (is (= 1 (aoc/sign 2)))
+    (is (= -1 (aoc/sign -2)))))
 
 
 
-(let [summary (run-tests)]
-  (when-not (successful? summary)
-    (throw (Exception. "some tests failed"))))
+(def d {:a {:b 2}
+        :c {:d {:e 3}}})
+
+(deftest builtin-alternatives
+  (testing "none?"
+    (is (aoc/none? odd? evens))
+    (is (not (aoc/none? odd? stevens))))
+  (testing "update-2"
+    (is (= (update-in d [:a :b] inc)
+           (aoc/update-2 d :a :b inc))))
+  (testing "assoc-2"
+    (is (= (assoc-in d [:a :b] 5)
+           (aoc/assoc-2 d :a :b 5))))
+  (testing "assoc-3"
+    (is (= (assoc-in d [:c :d :e] 7)
+           (aoc/assoc-3 d :c :d :e 7)))))

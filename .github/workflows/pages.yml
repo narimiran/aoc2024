@@ -1,6 +1,13 @@
 name: Pages
 
-on: push
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.clj'
+      - '**/*.edn'
+      - '**/*.md'
 
 permissions:
   contents: read

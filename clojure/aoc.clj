@@ -1,10 +1,11 @@
 ;; # Helper functions for AoC
 
+
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (ns aoc
   {:nextjournal.clerk/visibility {:result :hide}
    :nextjournal.clerk/auto-expand-results? true
-   :nextjournal.clerk/toc :collapsed}
+   #_#_:nextjournal.clerk/toc :collapsed}
   (:require [clojure.string :as str]
             [clojure.math :as math]
             [clojure.data.int-map :as i]
@@ -182,6 +183,9 @@
 (defn pt* ^longs [^long magnitude [^long x ^long y]]
   [(* magnitude x) (* magnitude y)])
 
+(defn left-turn [[x y]] [y (- x)])
+(defn right-turn [[x y]] [(- y) x])
+
 (defn inside?
   ([size [x y]] (inside? size size x y))
   ([size x y]   (inside? size size x y))
@@ -249,13 +253,20 @@
                      [^long x2 ^long y2 ^long z2]]
   [(+ x1 x2) (+ y1 y2) (+ z1 z2)])
 
+(defn pt-3d- ^longs [[^long x1 ^long y1 ^long z1]
+                     [^long x2 ^long y2 ^long z2]]
+  [(- x1 x2) (- y1 y2) (- z1 z2)])
+
+(defn pt-3d* ^longs [^long magnitude [^long x ^long y ^long z]]
+  [(* magnitude x) (* magnitude y) (* magnitude z)])
+
 (defn neighbours-3d [[^long x ^long y ^long z]]
   [[(dec x) y z] [(inc x) y z]
    [x (dec y) z] [x (inc y) z]
    [x y (dec z)] [x y (inc z)]])
 
 (defn inside-3d?
-  ([size [x y z]] (inside? size x y z))
+  ([size [x y z]] (inside-3d? size x y z))
   ([size x y z]
    (and (< -1 x size)
         (< -1 y size)
@@ -468,6 +479,12 @@
               math/floor
               long
               inc)))
+
+(defn sign [x]
+  (cond
+    (pos? x) 1
+    (neg? x) -1
+    :else 0))
 
 
 

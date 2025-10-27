@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version: '25'
 
       - name: Install Clojure
         uses: DeLaGuardo/setup-clojure@13.2
@@ -38,15 +38,10 @@ jobs:
           key: cljdeps-${{ hashFiles('deps.edn') }}
           restore-keys: cljdeps-
 
-      - name: Test helpers
+      - name: Run tests
         if : ${{ matrix.kind == 'tests' }}
         working-directory: clojure
-        run: clojure -M tests/aoc_tests.clj
-
-      - name: Test solutions
-        if : ${{ matrix.kind == 'tests' }}
-        working-directory: clojure
-        run: clojure -M tests/solutions_tests.clj
+        run: clojure -M:test
 
       # - name: Benchmark solutions
       #   if : ${{ matrix.kind == 'benchmark' }}

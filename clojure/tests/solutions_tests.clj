@@ -48,8 +48,3 @@
 (check-day 23 [7 "co,de,ka,ta"] [1110 "ej,hm,ks,ms,ns,rb,rq,sc,so,un,vb,vd,wd"])
 (check-day 24 [4 "z00,z02"] [50411513338638 "gfv,hcm,kfs,tqm,vwr,z06,z11,z16"])
 (check-day 25 3 3608)
-
-
-(let [summary (run-tests)]
-  (when-not (successful? summary)
-    (throw (Exception. "tests failed"))))

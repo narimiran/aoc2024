@@ -21,6 +21,8 @@
                                             "aoc20*.clj"
                                             "day*.clj"]
                                     :index "index.md"}}
+  :test    {:extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
+            :main-opts ["-m" "kaocha.runner"]}
   :splint  {:extra-deps {io.github.noahtheduke/splint {:mvn/version "1.21.0"}}
             :main-opts  ["-m" "noahtheduke.splint"]}
   :debug   {:extra-deps {com.github.flow-storm/clojure        {:mvn/version "1.12.3-1"}
