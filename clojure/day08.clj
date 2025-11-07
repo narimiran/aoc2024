@@ -66,7 +66,7 @@
 ;;
 ;; We need to extract the locations of all antennas.
 ;;
-;; Once again my [AoC helper module](../aoc) is useful.
+;; Once again my [aoc-utils library](https://narimiran.github.io/aoc-utils/) is useful.
 ;; The `aoc/grid->point-map` function takes a predicate as an optional second
 ;; argument, so it'll extract only the points which satisfy the predicate.
 ;; We're interested in all non-dot characters, and we can write that negation
@@ -129,10 +129,6 @@
 ;; accumulation (by using the
 ;; [`reduced` function](https://clojuredocs.org/clojure.core/reduced))
 ;; when we find a point that is outside of the grid.
-;;
-;; I already had the `aoc/pt+` function in [my helpers](../aoc), but for this
-;; occasion I also added `aoc/pt-` and `aoc/pt*` for calculating a difference
-;; between two points and for scalar multiplication of a vector, respectively.
 ;;
 (defn antinodes [[size antennas] multis]
   (for [[pt1 freq1] antennas

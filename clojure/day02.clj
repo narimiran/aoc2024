@@ -32,7 +32,7 @@
 
 ;; Today we're not dealing with columns, so all we have to do is extract
 ;; all the numbers from a line.
-;; My [aoc module](../aoc) makes that a breeze:
+;; My [aoc-utils library](https://narimiran.github.io/aoc-utils/) makes that a breeze:
 ;;
 (defn parse-data [input]
   (aoc/parse-lines input :ints))

@@ -35,8 +35,8 @@
 ;; Each line consists of two numbers, separated by multiple spaces.
 ;;
 ;; Fortunately, I have a helper function `aoc/integers` (if you haven't already,
-;; take a look at my [aoc module](../aoc), lots of goodies there which will get
-;; used throughout these tasks), which extracts
+;; take a look at my [aoc-utils library](https://narimiran.github.io/aoc-utils/),
+;; lots of goodies there which will get used throughout these tasks), which extracts
 ;; all integers from a line, and I can invoke it when parsing the input
 ;; with `:ints`.\
 ;; Next, we have to transform a list of lines into a list of columns.

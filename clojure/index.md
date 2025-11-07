@@ -31,13 +31,11 @@ so feel free to read some other resources to get the feel for the language.
 Every year I have a helper file with common functions that are
 usually useful for AoC tasks.
 ~~This year is no exception, and now it is available as a notebook.
-See [aoc.clj](./aoc).~~
-The helpers now live in a separate repo, available as a notebook
-[here](https://narimiran.github.io/aoc-utils/).
+See aoc.clj.~~
+The helpers are now a library which lives in a separate repo,
+available as a notebook [here](https://narimiran.github.io/aoc-utils/).
 
-I wanted to test the [graph traversal helper](./aoc#graph-traversal)
-(if it doesn't take you to the correct part of the notebook, try hitting `F5`
-or find it in the TOC),
+I wanted to test the [graph traversal helper](https://narimiran.github.io/aoc-utils/#graph-traversal)
 and also to see how to write code that's "compatible" with Clerk
 notebook format, i.e. easy and interesting to follow, so I solved some
 previous tasks:

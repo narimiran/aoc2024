@@ -53,7 +53,8 @@
 ;; ## Input parsing
 ;;
 ;; We have two separate groups of numbers, separated by a blank line.
-;; Another [AoC helper](../aoc) to the rescue: `aoc/parse-paragraphs`,
+;; Another helper from the [aoc-utils library](https://narimiran.github.io/aoc-utils/)
+;; to the rescue: `aoc/parse-paragraphs`,
 ;; which separates each group in it's own list.\
 ;; For each group, we extract integers from each line.
 ;;
