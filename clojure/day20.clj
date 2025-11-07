@@ -2,7 +2,7 @@
 (ns day20
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc))
+  (:require [aoc-utils.core :as aoc]))
 
 
 ;; # Day 20: Race Condition
@@ -84,7 +84,7 @@
 ;; one:
 ;;
 (defn solve [grid]
-  (let [path (:path (aoc/dfs grid))
+  (let [path ((:path (aoc/dfs grid)))
         indexed-path (vec (map-indexed vector path))
         p1 (future (count-cheats indexed-path 2))
         p2 (future (count-cheats indexed-path 20))]

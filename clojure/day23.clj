@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc
+   [aoc-utils.core :as aoc]
    [clojure.string :as str]))
 
 
@@ -94,13 +94,13 @@ td-yn")
 ;; if `v1` and `v2` have a connection between them.
 ;;
 (defn find-triplets [connections]
-  (into #{} (for [[k vs] connections
-                  :when (str/starts-with? k "t")
-                  v1 vs
-                  v2 vs
-                  :while (not= v1 v2)
-                  :when ((connections v1) v2)]
-              #{k v1 v2})))
+  (set (for [[k vs] connections
+             :when (str/starts-with? k "t")
+             v1 vs
+             v2 vs
+             :while (not= v1 v2)
+             :when ((connections v1) v2)]
+         #{k v1 v2})))
 
 
 ;; We need to `count` how many of those interconnected triplets exists:

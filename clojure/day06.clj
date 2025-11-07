@@ -2,7 +2,7 @@
 (ns day06
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc
+  (:require [aoc-utils.core :as aoc]
             [quil.core :as q]
             [quil.middleware :as m]
             [nextjournal.clerk :as clerk]))

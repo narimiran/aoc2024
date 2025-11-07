@@ -2,7 +2,7 @@
 (ns day04
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc))
+  (:require [aoc-utils.core :as aoc]))
 
 
 ;; # Day 4: Ceres Search

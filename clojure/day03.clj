@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc
+   [aoc-utils.core :as aoc]
    [clojure.string :as str]
    [nextjournal.clerk :as clerk]))
 

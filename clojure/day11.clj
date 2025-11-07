@@ -2,7 +2,7 @@
 (ns day11
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc
+  (:require [aoc-utils.core :as aoc]
             [clojure.math :as math]))
 
 
@@ -43,7 +43,7 @@
 ;; Enter the [`frequencies` function](https://clojuredocs.org/clojure.core/frequencies):
 ;;
 (defn parse-data [input]
-  (-> (aoc/parse-line input :ints)
+  (-> (aoc/parse-input input :ints)
       frequencies))
 
 

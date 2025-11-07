@@ -2,7 +2,7 @@
 (ns day25
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc))
+  (:require [aoc-utils.core :as aoc]))
 
 
 ;; # Day 25: Code Chronicle

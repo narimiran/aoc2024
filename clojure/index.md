@@ -30,8 +30,10 @@ so feel free to read some other resources to get the feel for the language.
 
 Every year I have a helper file with common functions that are
 usually useful for AoC tasks.
-This year is no exception, and now it is available as a notebook.
-See [aoc.clj](./aoc).
+~~This year is no exception, and now it is available as a notebook.
+See [aoc.clj](./aoc).~~
+The helpers now live in a separate repo, available as a notebook
+[here](https://narimiran.github.io/aoc-utils/).
 
 I wanted to test the [graph traversal helper](./aoc#graph-traversal)
 (if it doesn't take you to the correct part of the notebook, try hitting `F5`
@@ -53,7 +55,7 @@ Ok, now we're ready for...
 
 Task                                                                    | Notebook            | Extras      | Comment
 ---                                                                     | ---                 | ---         | ---
-Day 0: Helper module                                                    | [aoc.clj](aoc)      |             | Helper module I'll use for each task.
+Day 0: aoc-utils helper package | [aoc-utils](https://narimiran.github.io/aoc-utils/) | | Helper pacakge I'll use for each task.
 [Day 1: Historian Hysteria](https://adventofcode.com/2024/day/1)        | [day01.clj](day01)  | viz, bench  | Much easier than Day 1 2023. I like it!
 [Day 2: Red-Nosed Reports](https://adventofcode.com/2024/day/2)         | [day02.clj](day02)  | viz         | The Problem Dampener would be useful for AoC!
 [Day 3: Mull It Over](https://adventofcode.com/2024/day/3)              | [day03.clj](day03)  | viz         | Regex and chill.
@@ -80,4 +82,3 @@ Day 0: Helper module                                                    | [aoc.c
 [Day 23: LAN Party](https://adventofcode.com/2024/day/23)               | [day23.clj](day23)  |             | Clique-measuring contest.
 [Day 24: Crossed Wires](https://adventofcode.com/2024/day/24)           | [day24.clj](day24)  |             | No idea what I'm doing.
 [Day 25: Code Chronicle](https://adventofcode.com/2024/day/25)          | [day25.clj](day25)  |             | Lockpicking was never easier.
-

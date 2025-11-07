@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc))
+   [aoc-utils.core :as aoc]))
 
 
 ;; # Day 9: Disk Fragmenter
@@ -29,7 +29,7 @@
 ;; We'll go digit by digit and "unzip" it based on the rules we're given:
 ;;
 (defn parse-data [input]
-  (->> (aoc/parse-line input :digits)
+  (->> (aoc/parse-input input :digits)
        (map-indexed vector)
        (mapcat (fn [[i n]]
                  (let [idx (when (zero? (mod i 2)) (quot i 2))]

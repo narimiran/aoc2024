@@ -2,7 +2,7 @@
 (ns day07
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc))
+  (:require [aoc-utils.core :as aoc]))
 
 
 ;; # Day 7: Bridge Repair

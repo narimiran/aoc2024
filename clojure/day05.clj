@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc))
+   [aoc-utils.core :as aoc]))
 
 
 ;; # Day 5: Print Queue

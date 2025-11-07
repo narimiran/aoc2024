@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc
+   [aoc-utils.core :as aoc]
    [quil.core :as q]
    [quil.middleware :as m]
    [nextjournal.clerk :as clerk]))

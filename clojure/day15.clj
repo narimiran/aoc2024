@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc
+   [aoc-utils.core :as aoc]
    [clojure.string :as str]
    [quil.core :as q]
    [quil.middleware :as m]
@@ -248,7 +248,7 @@
         grid (cond-> grid
                widen? (->> (mapv widen-row))
                true (aoc/grid->hashed-point-map (set "#O[]@") 100))
-        bot (first (keep (fn [[k v]] (when (#{\@} v) k)) grid))
+        bot (some (fn [[k v]] (when (#{\@} v) k)) grid)
         moves (mapv directions (str/join moves))]
     [{:grid (dissoc grid bot)
       :bot bot

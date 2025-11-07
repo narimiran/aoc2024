@@ -3,7 +3,7 @@
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
   (:require
-   aoc
+   [aoc-utils.core :as aoc]
    [clojure.string :as str]
    [nextjournal.clerk :as clerk]))
 
@@ -92,7 +92,7 @@
 ;;
 (defn blocking-size [data]
   (loop [size 1024]
-    (if-let [path (:path (traverse data size))]
+    (if-let [path ((:path (traverse data size)))]
       (recur (->> data
                   (take-while (complement (set path)))
                   count
@@ -123,10 +123,10 @@
 ;; Let's see how our paths compare with 1024 obstacles and before our path
 ;; is blocked.
 ;;
-(let [init-path (:path (traverse data 1024))
+(let [init-path ((:path (traverse data 1024)))
       init-walls (take 1024 data)
       size (dec (blocking-size data))
-      last-path (:path (traverse data size))
+      last-path ((:path (traverse data size)))
       last-walls (take size data)
       axes-common {:ticks ""
                    :showticklabels false

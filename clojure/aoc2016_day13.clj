@@ -2,7 +2,7 @@
 (ns aoc2016-day13
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require aoc
+  (:require [aoc-utils.core :as aoc]
             [nextjournal.clerk :as clerk]))
 
 ;; # Testing graph traversal helper before AoC 2024, pt. 1
