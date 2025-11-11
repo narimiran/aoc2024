@@ -107,41 +107,41 @@
           0
           change))
 
+;; Since we'll encounter some change sequences multiple times,
+;; we can `memoize` this function to retrieve the result faster:
+;;
+(def change-hash-memo (memoize change-hash))
 
 ;; Now we can create a map from price changes to prices at that point.
 ;; If we see the same change multiple times, we're interested only in the
-;; first time it happens: that's why we `reverse` a sequence before converting
-;; it to a map, so that the earlier occurrence overwrites the later ones:
+;; first time it happens: that's why we are using the
+;; [`rseq` function](https://clojuredocs.org/clojure.core/rseq)
+;; before creating a map with the
+;; [`zipmap` function](https://clojuredocs.org/clojure.core/zipmap),
+;; so that the earlier occurrence overwrites the later ones:
 ;;
 (defn create-change-map [digits changes]
-  (->> (drop 4 digits)
-       (map vector changes)
-       reverse
-       (into {})))
+  (zipmap (rseq changes) (rseq digits)))
 
 (defn price-changes [n]
   (let [digits (get-2000-digits n)]
     (->> digits
          (map - (rest digits))
          (partition 4 1)
-         (map change-hash)
+         (mapv change-hash-memo)
          (create-change-map digits))))
 
 
 ;; We will do that for each number in our input. (We're using `pmap` to
 ;; speed things up.)
-;; After we have the results, we need to combine them to see at which
-;; price change sequence we will gain the most bananas overall:
+;; After we have the results, we need to combine them with the
+;; [`merge-with` function](https://clojuredocs.org/clojure.core/merge-with)
+;; to see at which price change sequence we will gain the most bananas overall:
 ;;
 (defn part-2 [data]
   (->> data
        (pmap price-changes)
-       (reduce (fn [acc bs]
-                 (reduce-kv (fn [acc change price]
-                              (update acc change (fnil + 0) price))
-                            acc
-                            bs))
-               {})
+       (apply merge-with +)
        vals
        (reduce max)))
 
@@ -160,6 +160,9 @@
 ;;
 ;; - `iterate`: call a function multiple times, each time on a result of a
 ;;   previous iteration, i.e. `(f (f (f x)))`.
+;; - `zipmap`: create a map from sequences of keys and vals.
+;; - `merge-with`: combine multiple maps by applying a function to the
+;;   keys that appear in more than one map.
 
 
 
