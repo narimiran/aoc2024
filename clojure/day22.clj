@@ -151,6 +151,60 @@
 
 
 
+
+;; ## Faster solution
+;;
+;; While revisiting these notebooks in November 2025, I realized that this
+;; task was the only one that takes more than one second on machine to get
+;; the solution for both parts. Unacceptable!
+;;
+;; There are two major changes:
+;; - We won't be calculating all 2000 price changes at once and keep them in
+;;   memory.
+;; - We'll use Java array instead of hasmaps to keep the scores.
+;;
+;; This allows us to write a solution that is ~3x faster than the one above,
+;; even though that one runs in parallel for each number in our input.
+;;
+;; We will have a sliding window we can calculate like this:
+;;
+(defn calc-window [window n' n]
+  (mod (- (+ (* 20 window)
+             (mod n' 10))
+          (mod n 10))
+       160000)) ; 20^4
+
+
+;; We will have a single array of 160,000 elements where we'll store
+;; results for each "hash" of four consecutive changes.\
+;; For each number in the input we'll have to keep track of already
+;; `seen` windows, as only the first one should be added to the array.
+;;
+(defn part-2-array [data]
+  (let [a (short-array 160000 (short 0))]
+    (run! (fn [n]
+            (loop [window 0
+                   n n
+                   cnt 2001
+                   seen #{}]
+              (when-not (zero? cnt)
+                (let [n' (calc-secret n)
+                      w' (calc-window window n' n)]
+                  (if (> cnt 1997)
+                    (recur w' n' (dec cnt) seen)
+                    (do
+                      (when-not (seen window)
+                        (aset-short a window (+ (mod n 10) (aget a window))))
+                      (recur w' n' (dec cnt) (conj seen window))))))))
+          data)
+    (reduce max a)))
+
+
+(part-2-array data)
+
+
+
+
 ;; ## Conclusion
 ;;
 ;; Part 1 is very straight-forward, especially for a task this late.
@@ -173,4 +227,4 @@
 (defn -main [input]
   (let [data (parse-data input)]
     [(part-1 data)
-     (part-2 data)]))
+     (part-2-array data)]))
