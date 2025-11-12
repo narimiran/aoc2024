@@ -19,16 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Prepare java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '21'
 
       - name: Install clojure
-        uses: DeLaGuardo/setup-clojure@13.2
+        uses: DeLaGuardo/setup-clojure@13.4
         with:
           cli: 'latest'
 
@@ -54,7 +54,7 @@ jobs:
         run: clojure -X:nextjournal/clerk :path-prefix '"public/build/${{ github.sha }}/"' :git/sha '"${{ github.sha }}"'
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           # Upload entire repository
           path: 'clojure/public/build'
