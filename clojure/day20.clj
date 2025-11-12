@@ -53,14 +53,15 @@
 ;; such shortcuts:
 ;;
 (defn count-cheats [indexed-path limit]
-    (aoc/do-count [[i a] indexed-path
-                   [j b] indexed-path
-                   :let [old-dist (- i j)]
-                   :while (> old-dist 100)
-                   :let [new-dist (aoc/manhattan a b)]
-                   :when (and (<= new-dist limit)
-                              (<= new-dist (- old-dist 100)))]))
-
+  (aoc/sum-pmap
+   (fn [[i a]]
+     (aoc/do-count [[j b] indexed-path
+                    :let [old-dist (- i j)]
+                    :while (> old-dist 100)
+                    :let [new-dist (aoc/manhattan a b)]
+                    :when (and (<= new-dist limit)
+                               (<= new-dist (- old-dist 100)))]))
+   (drop 100 indexed-path)))
 
 ;; The only thing remaining is to find the original `path` between `start`
 ;; and `end`.\
@@ -84,15 +85,51 @@
 ;; which invokes a function in a separate thread, not blocking the current
 ;; one:
 ;;
-(defn solve [grid]
+(defn solve [grid count-fn]
   (let [path ((:path (aoc/dfs grid)))
         indexed-path (vec (map-indexed vector path))
-        p1 (future (count-cheats indexed-path 2))
-        p2 (future (count-cheats indexed-path 20))]
+        p1 (future (count-fn indexed-path 2))
+        p2 (future (count-fn indexed-path 20))]
     [@p1 @p2]))
 
 
-(solve data)
+(solve data count-cheats)
+
+
+
+
+
+
+
+;; ## Faster solution
+;;
+;; In November 2025 I've read a tip which says that if two points in the original
+;; path are at a distance that is `N` above the `limit`, we can safely skip `N`
+;; points ahead before there's a possibility that those two points will be under
+;; the `limit`.
+;;
+;; There is a tradeoff: the code is uglier, but it offers ~10x faster solution.
+;;
+(defn count-cheats-faster [indexed-path limit]
+  (let [len (count indexed-path)]
+    (aoc/sum-pmap
+     (fn [[i a]]
+       (loop [j (+ i 100)
+              res 0]
+         (if (>= j len)
+           res
+           (let [[_ b] (indexed-path j)
+                 new-dist (aoc/manhattan a b)
+                 over-limit (- new-dist limit)]
+             (if (pos? over-limit)
+               (recur (+ j over-limit) res)
+               (recur (inc j) (if (>= (- j i new-dist) 100)
+                                (inc res)
+                                res)))))))
+     indexed-path)))
+
+
+(solve data count-cheats-faster)
 
 
 
@@ -118,4 +155,4 @@
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (defn -main [input]
   (let [data (parse-data input)]
-    (solve data)))
+    (solve data count-cheats-faster)))
