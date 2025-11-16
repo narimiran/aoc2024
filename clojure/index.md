@@ -32,8 +32,9 @@ Every year I have a helper file with common functions that are
 usually useful for AoC tasks.
 ~~This year is no exception, and now it is available as a notebook.
 See aoc.clj.~~
-The helpers are now a library which lives in a separate repo,
-available as a notebook [here](https://narimiran.github.io/aoc-utils/).
+The helpers are now a library which lives in a
+[separate repo](https://github.com/narimiran/aoc-utils), and its documentation
+is available [here](https://narimiran.github.io/aoc-utils/).
 
 I wanted to test the [graph traversal helper](https://narimiran.github.io/aoc-utils/#graph-traversal)
 and also to see how to write code that's "compatible" with Clerk
@@ -80,3 +81,42 @@ Day 0: aoc-utils helper package | [aoc-utils](https://narimiran.github.io/aoc-ut
 [Day 23: LAN Party](https://adventofcode.com/2024/day/23)               | [day23.clj](day23)  |             | Clique-measuring contest.
 [Day 24: Crossed Wires](https://adventofcode.com/2024/day/24)           | [day24.clj](day24)  |             | No idea what I'm doing.
 [Day 25: Code Chronicle](https://adventofcode.com/2024/day/25)          | [day25.clj](day25)  |             | Lockpicking was never easier.
+
+
+
+### Benchmark times
+
+Even though I didn't focus on writing performant solutions, and many of these
+could be sped up by writing them differently, it is nice to see that each task
+takes less than a second to solve both parts.
+
+Here are the benchmark times (using the `criterium` package) on my machine (AMD Ryzen 5950X):
+
+
+| Day  | Time           |
+|-----:|----------------|
+|    1 |  958.831353 µs |
+|    2 |    4.625243 ms |
+|    3 |  303.390455 µs |
+|    4 |   27.516360 ms |
+|    5 |    1.723164 ms |
+|    6 |  224.246944 ms |
+|    7 |    3.983090 ms |
+|    8 |    2.294307 ms |
+|    9 |  255.164897 ms |
+|   10 |    2.916478 ms |
+|   11 |   31.097763 ms |
+|   12 |   66.314596 ms |
+|   13 |  784.359918 µs |
+|   14 |  586.432707 ms |
+|   15 |   15.720098 ms |
+|   16 |  553.761732 ms |
+|   17 |  171.118475 µs |
+|   18 |  300.422678 ms |
+|   19 |    2.540638 ms |
+|   20 |   53.188199 ms |
+|   21 |   99.512958 µs |
+|   22 |  605.640439 ms |
+|   23 |   19.111592 ms |
+|   24 |    2.767640 ms |
+|   25 |   16.221126 ms |

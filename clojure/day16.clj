@@ -106,7 +106,7 @@
 
 
 ;; In Part 1 we're interested only in the minimum "score", i.e. the least
-;; amount of points needed to run :
+;; amount of points needed to run:
 ;;
 (defn part-1 [data]
   (-> data

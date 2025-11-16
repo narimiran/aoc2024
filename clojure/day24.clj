@@ -95,8 +95,7 @@ x02 OR y02 -> z02")
 (defn extract-value [wires]
   (let [zs (->> wires
                 (filter (fn [[k _]] (str/starts-with? k "z")))
-                sort
-                reverse
+                (sort (comp - compare))
                 vals
                 str/join)]
     (Long/parseLong zs 2)))
