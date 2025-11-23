@@ -46,11 +46,13 @@
 ;; is not about the performance.
 ;;
 (defn parse-data [input]
-  (let [lines (aoc/parse-lines input)
-        walls (aoc/grid->point-set lines #{\#})
-        start (first (aoc/grid->point-set lines #{\S}))
-        end (first (aoc/grid->point-set lines #{\E}))]
-    [walls start end]))
+  (-> input
+      aoc/parse-lines
+      (aoc/create-grid {\# :walls
+                        \S :start
+                        \E :end})
+      (update :start first) ; only one start
+      (update :end first))) ; ...and one end
 
 (def example-data (parse-data example))
 (def data (parse-data (aoc/read-input 16)))
@@ -88,7 +90,7 @@
 ;; Making a turn costs more than continuing straight, so we need to
 ;; define the `:cost-fn` function for each movement we make:
 ;;
-(defn traverse [walls start start-dir end]
+(defn traverse [{:keys [walls start end]} start-dir]
   (aoc/dijkstra {:start [start start-dir]
                  :end-cond (fn [[pt _]] (= end pt))
                  :walls walls
@@ -101,8 +103,8 @@
 
 ;; The Reindeer are now ready to make a run:
 ;;
-(defn olympics [[walls start end]]
-  (traverse walls start [1 0] end))
+(defn olympics [data]
+  (traverse data [1 0]))
 
 
 ;; In Part 1 we're interested only in the minimum "score", i.e. the least
@@ -153,17 +155,20 @@
 
 ;; Since the `end` is in the top-right corner, there's no need to check
 ;; east and north directions.
-;; For other two directions, we `traverse` form `end` to `start`.
+;; For other two directions, we `traverse` from `end` to `start`.
 ;; We need to take the `:costs` of all visited points, and we add all points
 ;; that are `on-best-path?` to the `best-spots`.
 ;; In the end, we're interested in the `count` of such points.
 ;;
-(defn part-2 [[walls start end :as data]]
+(defn part-2 [{:keys [walls start end] :as data}]
   (let [fwd-results (olympics data)
         best-result (:steps fwd-results)
         fwd-costs   (:costs fwd-results)]
     (-> (reduce (fn [best-spots init-dir]
-                  (->> (traverse walls end init-dir start)
+                  (->> (traverse {:start end
+                                  :end start
+                                  :walls walls}
+                                 init-dir)
                        :costs
                        (on-best-path? best-result fwd-costs)
                        (into best-spots)))
@@ -181,8 +186,8 @@
 ;;
 ;; Let's see the best path!
 ;;
-(let [walls (first data)
-      path (map first (:path (olympics data)))
+(let [walls (:walls data)
+      path (map first ((:path (olympics data))))
       axes-common {:ticks ""
                    :showticklabels false
                    :showgrid false

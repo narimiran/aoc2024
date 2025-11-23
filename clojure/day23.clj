@@ -61,7 +61,7 @@ td-yn")
 ;; connections:
 ;;
 (defn parse-data [input]
-  (let [lines (aoc/parse-lines input :words {:word-sep #"-"})
+  (let [lines (aoc/parse-lines input :words #"-")
         conj' (fnil conj #{})]
     (reduce
      (fn [acc [a b]]

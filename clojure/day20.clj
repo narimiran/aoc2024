@@ -23,13 +23,13 @@
 ;;
 (defn parse-data [input]
   (let [lines (aoc/parse-lines input)]
-    {:start (first (aoc/grid->point-set lines #{\S}))
-     :end   (first (aoc/grid->point-set lines #{\E}))
-     :walls (aoc/grid->point-set lines #{\#})}))
-
+    (-> (aoc/create-grid lines {\S :start
+                                \E :end
+                                \# :walls})
+        (update :start first)  ; there's only one start
+        (update :end first)))) ; ...and one end
 
 (def data (parse-data (aoc/read-input 20)))
-
 
 
 ;; ## Solution

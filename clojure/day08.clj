@@ -67,19 +67,15 @@
 ;; We need to extract the locations of all antennas.
 ;;
 ;; Once again my [aoc-utils library](https://narimiran.github.io/aoc-utils/) is useful.
-;; The `aoc/grid->point-map` function takes a predicate as an optional second
-;; argument, so it'll extract only the points which satisfy the predicate.
+;; The `aoc/create-grid` function takes predicates as a second
+;; argument, so it'll extract only the points which satisfy the predicates.
 ;; We're interested in all non-dot characters, and we can write that negation
 ;; using the [`complement` function](https://clojuredocs.org/clojure.core/complement).
 ;;
-;; We need to limit our search to be inside the existing grid, so we'll also
-;; extract its size.
-;;
 (defn parse-data [input]
-  (let [lines (aoc/parse-lines input)
-        size (count lines)
-        antennas (aoc/grid->point-map lines (complement #{\.}))]
-    [size antennas]))
+  (-> input
+      (aoc/parse-lines :chars)
+      (aoc/create-grid {(complement #{\.}) :antennas})))
 
 
 (def example-data (parse-data example))
@@ -130,7 +126,7 @@
 ;; [`reduced` function](https://clojuredocs.org/clojure.core/reduced))
 ;; when we find a point that is outside of the grid.
 ;;
-(defn antinodes [[size antennas] multis]
+(defn antinodes [{:keys [size antennas]} multis]
   (for [[pt1 freq1] antennas
         [pt2 freq2] antennas
         :when (and (= freq1 freq2) (not= pt1 pt2))
@@ -235,5 +231,6 @@
 
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (defn -main [input]
-  [(solve (parse-data input) [1])
-   (solve (parse-data input) (range))])
+  (let [data (parse-data input)]
+    [(solve data [1])
+     (solve data (range))]))

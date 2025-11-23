@@ -49,7 +49,7 @@
 ;;
 ;; While we could work with `x,y` coordinates, and then after all moves
 ;; calculate the GPS coordinates, I already have a helper function ready
-;; to work with GPS: `aoc/grid->hashed-point-set`, where we can specify
+;; to work with GPS: `aoc/create-hashed-grid`, where we can specify
 ;; the multiplier for the y-axis.
 ;; Exactly what we need.
 ;;
@@ -64,13 +64,12 @@
 ;; will change over time):
 ;;
 (defn extract-state [grid]
-  (let [[walls boxes bots] (for [c [\# \O \@]]
-                             (aoc/grid->hashed-point-set grid #{c} 100))]
-    {:walls walls
-     :boxes boxes
-     :bot (first bots)}))
-
-
+  (-> (aoc/create-hashed-grid grid
+                              {\# :walls
+                               \O :boxes
+                               \@ :bot}
+                              100)
+      (update :bot first)))
 
 
 ;; We will convert a list of moves into directions (moving across y-axis
@@ -245,15 +244,15 @@
 ;;
 (defn parse-data-2 [input widen?]
   (let [[grid moves] (aoc/parse-paragraphs input)
-        grid (cond-> grid
-               widen? (->> (mapv widen-row))
-               true (aoc/grid->hashed-point-map (set "#O[]@") 100))
-        bot (some (fn [[k v]] (when (#{\@} v) k)) grid)
+        grid (-> (if widen?
+                   (mapv widen-row grid)
+                   grid)
+                 (aoc/create-hashed-grid {\@ :bot , (set "#O[]") :grid}
+                                         100)
+                 (update :bot first)
+                 (assoc :allowed? false))
         moves (mapv directions (str/join moves))]
-    [{:grid (dissoc grid bot)
-      :bot bot
-      :allowed? false}
-     moves]))
+    [grid moves]))
 
 (def example-data-1 (parse-data-2 example false))
 (def example-data-2 (parse-data-2 example true))

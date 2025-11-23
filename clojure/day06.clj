@@ -45,10 +45,11 @@
 ;; - the size of the grid (it is the same in both directions)
 ;;
 (defn parse-data [input]
-  (let [lines (aoc/parse-lines input :chars)]
-    {:walls (aoc/grid->point-set lines #{\#})
-     :guard (first (aoc/grid->point-set lines #{\^}))
-     :size (count lines)}))
+  (-> input
+      aoc/parse-lines
+      (aoc/create-grid {\# :walls \^ :guard})
+      (update :guard first))) ; only one guard
+
 
 (def example-data (parse-data example))
 (def data (parse-data (aoc/read-input 6)))

@@ -34,22 +34,10 @@ MXMXAXMASX")
 ;; We need to find how many times the word `XMAS` appears there, and we need
 ;; to search in 8 directions.
 ;;
-;; Since this will involve searching in a 2D grid, I have a helper in my
-;; [aoc-utils library](https://narimiran.github.io/aoc-utils/)
-;; which converts a list into a hashmap, where keys are
-;; the coordinates and values are characters at those positions:
-(defn parse-data [data]
-  (-> data
-      aoc/parse-lines
-      aoc/grid->point-map))
-
-;; Now we can convert our inputs to these hashmaps:
+;; We'll convert input into a 2D vector of characters:
 ;;
-(def example-grid (parse-data example))
-(def grid (parse-data (aoc/read-input 4)))
-
-
-
+(def example-grid (aoc/parse-lines example :chars))
+(def grid (aoc/parse-lines (aoc/read-input 4) :chars))
 
 
 ;; ## Part 1
@@ -71,15 +59,18 @@ MXMXAXMASX")
 ;; on those links), you can also write here; for example, use `:when`:
 ;;
 (defn part-1 [grid]
-  (let [letters (map-indexed vector "XMAS")]
+  (let [letters (map-indexed vector "XMAS")
+        height (count grid)
+        width (count (first grid))]
     (aoc/do-count
-     [[[x y] c] grid
+     [y (range height)
+      x (range width)
+      :let [c (aoc/grid-get grid x y)]
       :when (= \X c)
       dx [-1 0 1]
       dy [-1 0 1]
       :when (every? (fn [[i l]]
-                      (= l (grid [(+ x (* i dx))
-                                  (+ y (* i dy))])))
+                      (= l (aoc/grid-get grid (+ x (* i dx)) (+ y (* i dy)))))
                     letters)])))
 
 ;; If the position we're at isn't a letter `X`, we won't even bother to
@@ -120,13 +111,17 @@ MXMXAXMASX")
 ;;
 (defn part-2 [grid]
   (let [diags #{(vec "MAS") (vec "SAM")}
-        deltas [-1 0 1]]
+        deltas [-1 0 1]
+        height (count grid)
+        width (count (first grid))]
     (aoc/do-count
-     [[x y] (keys grid)
+     [y (range height)
+      x (range width)
       :when (and (diags (for [d deltas]
-                          (grid [(+ x d) (+ y d)])))
+                          (aoc/grid-get grid (+ x d) (+ y d))))
                  (diags (for [d deltas]
-                          (grid [(- x d) (+ y d)]))))])))
+                          (aoc/grid-get grid (- x d) (+ y d)))))])))
+
 
 ;; The only difference between two diagonals is if the deltas for `x` and `y`
 ;; have the same or the opposite sign. (Notice the `(- x d)` in the second one.)
@@ -146,7 +141,6 @@ MXMXAXMASX")
 ;; the visualizations are... wait for it... _no más_.
 ;;
 ;; Today's highlights:
-;; - `aoc/grid->point-map`: convert a 2D list into a hashmap
 ;; - `:when`: write conditions inside of `for`/`doseq`
 ;; - `every?`: check if all elements of a collection satisfy a predicate
 
@@ -158,6 +152,6 @@ MXMXAXMASX")
 
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (defn -main [input]
-  (let [grid (parse-data input)]
+  (let [grid (aoc/parse-lines input :chars)]
     [(part-1 grid)
      (part-2 grid)]))

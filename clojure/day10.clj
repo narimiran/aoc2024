@@ -41,8 +41,7 @@
 ;;
 (defn parse-data [input]
   (-> input
-      (aoc/parse-lines :digits)
-      aoc/grid->point-map))
+      (aoc/parse-lines :digits)))
 
 (def example-data (parse-data example))
 (def data (parse-data (aoc/read-input 10)))
@@ -75,7 +74,10 @@
 ;; Let's find all positions in our grid with height `0`:
 ;;
 (defn find-trailheads [grid]
-  (keep (fn [[k v]] (when (zero? v) k)) grid))
+  (for [[j row] (map-indexed vector grid)
+        [i n] (map-indexed vector row)
+        :when (zero? n)]
+    [i j]))
 
 (find-trailheads example-data)
 
@@ -107,12 +109,12 @@
     (aoc/bfs {:start trailhead
               :allow-revisits? true
               :side-effect (fn [{:keys [pt]}]
-                             (when (= 9 (grid pt))
+                             (when (= 9 (aoc/grid-get grid pt))
                                (swap! ends conj pt)))
               :nb-func (fn [pt]
-                         (aoc/neighbours 4 pt (fn [nb]
-                                                (= (grid nb)
-                                                   (inc (grid pt))))))})
+                         (aoc/neighbours-4 pt (fn [nb]
+                                                (= (aoc/grid-get grid nb)
+                                                   (inc (aoc/grid-get grid pt))))))})
     {:score  (count (distinct @ends))
      :rating (count @ends)}))
 

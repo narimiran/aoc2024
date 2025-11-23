@@ -2,7 +2,8 @@
 (ns day12
   {:nextjournal.clerk/auto-expand-results? true
    :nextjournal.clerk/toc :collapsed}
-  (:require [aoc-utils.core :as aoc]))
+  (:require [aoc-utils.core :as aoc]
+            [clojure.set :as set]))
 
 
 ;; # Day 12: Garden Groups
@@ -30,16 +31,9 @@ MMMISSJEEE")
 ;; ## Input parsing
 ;;
 ;; It's a 2D grid once again.
-;; It's `aoc/grid->point-map` time once again.
 ;;
-(defn parse-data [input]
-  (-> input
-      aoc/parse-lines
-      aoc/grid->point-map))
-
-(def example-grid (parse-data example))
-(def grid (parse-data (aoc/read-input 12)))
-
+(def example-grid (aoc/parse-lines example :chars))
+(def grid (aoc/parse-lines (aoc/read-input 12) :chars))
 
 
 
@@ -56,7 +50,7 @@ MMMISSJEEE")
 ;;
 (defn traverse [grid start plant]
   (-> (aoc/bfs {:start start
-                :nb-cond #(= plant (grid %))})
+                :nb-cond #(= plant (aoc/grid-get grid %))})
       :seen))
 
 ;; As an example, for the top-most point of the example, we would get this region:
@@ -70,11 +64,14 @@ MMMISSJEEE")
 ;; We keep track of all regions we discover:
 ;;
 (defn create-regions [grid]
-  (loop [unvisited grid
+  (loop [unvisited (set (for [y (range (count grid))
+                              x (range (count (first grid)))]
+                          [x y]))
          regions []]
-    (if-let [[pt plant] (first unvisited)]
-      (let [region (traverse grid pt plant)]
-        (recur (reduce dissoc unvisited region)
+    (if-let [pt (first unvisited)]
+      (let [plant (aoc/grid-get grid pt)
+            region (traverse grid pt plant)]
+        (recur (set/difference unvisited region)
                (conj regions region)))
       regions)))
 
@@ -102,7 +99,7 @@ MMMISSJEEE")
 ;; its four neighbours don't belong to the same region.
 ;;
 (defn perimeter [region pt]
-   (count (aoc/neighbours 4 pt (complement region))))
+   (count (aoc/neighbours-4 pt (complement region))))
 
 (defn fence-price [region]
   (* (count region)
@@ -251,6 +248,8 @@ MMMISSJEEE")
 
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (defn -main [input]
-  (let [regions (create-regions (parse-data input))]
+  (let [regions (-> input
+                    (aoc/parse-lines :chars)
+                    create-regions)]
     [(aoc/sum-map fence-price regions)
      (aoc/sum-map discount-price regions)]))
