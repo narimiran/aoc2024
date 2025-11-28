@@ -17,6 +17,7 @@ Take a look:
 * [AoC 2022 in Python, Clojure](https://github.com/narimiran/AdventOfCode2022)
 * [AoC 2023 in Clojure](https://github.com/narimiran/AdventOfCode2023)
 * [AoC 2024 in Clojure (Clerk notebooks), Python, Elixir](https://github.com/narimiran/aoc2024) (this is a link to the repo)
+* [AoC 2025 in Clojure (Clerk notebooks)](https://github.com/narimiran/aoc2025)
 
 
 
