@@ -99,7 +99,7 @@
                   inc))
       size)))
 
-;; When we find the blocking _size_, we need extract the coordinate of the
+;; When we find the blocking _size_, we need to extract the coordinate of the
 ;; blocking _byte_.
 ;; One more opportunity for off-by-one error (and this one has bit me):
 ;; if we have a size `n`, the last index is at `(dec n)`:
